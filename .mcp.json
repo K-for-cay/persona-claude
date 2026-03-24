@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "onto": {
+      "type": "stdio",
+      "command": "onto",
+      "args": ["serve"],
+      "env": {
+        "ONTO_PERSONA_DIR": "${HOME}/.claude/personas",
+        "ONTO_PROJECT_DIR": "${CLAUDE_PROJECT_DIR:-.}/.claude/ontology"
+      }
+    }
+  }
+}

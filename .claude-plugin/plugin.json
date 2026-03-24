@@ -1,0 +1,14 @@
+{
+  "name": "persona-claude",
+  "version": "0.1.0",
+  "description": "Ontology-based persona and task knowledge management for Claude Code. Inspired by Rowboat's knowledge graph architecture.",
+  "author": {
+    "name": "nogabi"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/K-for-cay/persona-claude",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/K-for-cay/persona-claude"
+  }
+}

@@ -1,0 +1,6 @@
+# Rust build artifacts
+onto/target/
+
+# OS
+.DS_Store
+Thumbs.db
