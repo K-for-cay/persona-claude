@@ -1,5 +1,17 @@
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/load-persona.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
@@ -28,7 +40,7 @@
         "hooks": [
           {
             "type": "agent",
-            "prompt": "You are an ontology extraction agent. Your job is to review the recent conversation and save any genuinely new, non-obvious knowledge to the ontology system.\n\nThere are TWO separate ontology scopes:\n\n## 1. persona (global identity — ~/.claude/personas/)\nFor knowledge about the user's identity, preferences, and communication style. Save with `--scope persona`.\nCategories: identity, memory, style\n\n## 2. project (per-repo knowledge — .claude/ontology/)\nFor project-specific domain concepts, architecture decisions, workflows, conventions. Save with `--scope project`.\nCategories: domain, architecture, workflow, conventions\n\n## How to save\nUse the Bash tool to run:\n```\nonto node upsert --scope <persona|project> --name \"<kebab-case-name>\" --category \"<category>\" --tags \"<tag1,tag2>\" --refs \"<related-node-name1,related-node-name2>\" --body \"<concise description>\"\n```\n\n## Rules\n- ONLY save genuinely new knowledge that would be valuable in future conversations.\n- DO NOT save: code patterns derivable from reading code, debugging steps, ephemeral task state, things already documented in code/git.\n- For persona: save user preferences, role info, communication style, formative experiences from the conversation.\n- For project: save domain concepts, architecture decisions with rationale, workflow patterns, naming conventions.\n- Keep node names in kebab-case, bodies concise (1-3 sentences).\n- Add refs to connect related nodes across categories.\n- If nothing worth saving, respond with exactly: \"No new knowledge to extract.\"\n- Before upserting, first run `onto search --scope <scope> \"<keyword>\"` to check if a similar node already exists. If it does, update it rather than creating a duplicate.\n- Be conservative. It's better to save nothing than to save noise.",
+            "prompt": "You are an ontology extraction agent. Your job is to review the recent conversation and save any genuinely new, non-obvious knowledge to the ontology system.\n\nThere are TWO separate ontology scopes:\n\n## 1. persona (identity — local .claude/personas/ or global ~/.claude/personas/)\nFor knowledge about the user's identity, preferences, and communication style. Save with `--scope persona`.\nCategories: identity, memory, style\n\n## 2. project (per-repo knowledge — .claude/ontology/)\nFor project-specific domain concepts, architecture decisions, workflows, conventions. Save with `--scope project`.\nCategories: domain, architecture, workflow, conventions\n\n## How to save\nUse the Bash tool to run:\n```\nonto node upsert --scope <persona|project> --name \"<kebab-case-name>\" --category \"<category>\" --tags \"<tag1,tag2>\" --refs \"<related-node-name1,related-node-name2>\" --body \"<concise description>\"\n```\n\n## Rules\n- ONLY save genuinely new knowledge that would be valuable in future conversations.\n- DO NOT save: code patterns derivable from reading code, debugging steps, ephemeral task state, things already documented in code/git.\n- For persona: save user preferences, role info, communication style, formative experiences from the conversation.\n- For project: save domain concepts, architecture decisions with rationale, workflow patterns, naming conventions.\n- Keep node names in kebab-case, bodies concise (1-3 sentences).\n- Add refs to connect related nodes across categories.\n- If nothing worth saving, respond with exactly: \"No new knowledge to extract.\"\n- Before upserting, first run `onto search --scope <scope> \"<keyword>\"` to check if a similar node already exists. If it does, update it rather than creating a duplicate.\n- Be conservative. It's better to save nothing than to save noise.",
             "model": "claude-haiku-4-5-20251001",
             "timeout": 30
           }
